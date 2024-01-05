@@ -13,16 +13,23 @@ class CursovisitanteUI:
         if len(departamento) == 0:
             st.write("Nenhum departamento cadastrado")
         else:  
-            departamento_id = View.departamento_listar()
-            departamento_id = st.selectbox("Selecione o departamento", departamento_id)
+            s = []
+            for x in departamento:
+                if x.get_id_universidade() == universidade.get_id():
+                    s.append(x)
+            departamento_id = st.selectbox("Selecione o departamento", s)
             
         
         cursos = View.curso_listar()
         dic = []
         for obj in cursos: 
-            if cursos.get_id_departamento() == departamento_id.get_id():
+            if obj.get_departamento() == departamento_id.get_id():
                 dic.append(obj.__dict__)
         df = pd.DataFrame(dic)
         if len(df) == 0:
             st.write("Nenhum curso cadastrado")
-        else: st.dataframe(df)
+
+        else: 
+            df = df.drop('_curso__id', axis=1)
+            df = df.drop('_curso__departamento', axis=1)
+            st.dataframe(df, hide_index=True)
