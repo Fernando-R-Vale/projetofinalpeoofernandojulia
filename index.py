@@ -7,34 +7,43 @@ from departamentovisitanteUI import DepartamentovisitanteUI
 from universidadevisitanteUI import UniversidadevisitanteUI
 from views import View
 import streamlit as st
+from manteradmUI import ManterAdminUI
 
 class IndexUI:
       
-    def sidebar():
-      op = st.sidebar.selectbox("Menu", ["Login", "Curso", "Departamento", "Universidade"])
+    def sidebare():
+      op = st.sidebar.selectbox("Menu", ["Curso", "Departamento", "Universidade", "Administradores"])
+      if op == None:  ManterUniversidadeUI.main()
       if op == "Curso": ManterCursoUI.main()
       if op == "Departamento": ManterdepartamentoUI.main()
       if op == "Universidade": ManterUniversidadeUI.main()
-      
+      if op == "Administradores": ManterAdminUI.main()
+    def visitante():
+      op = st.sidebar.selectbox("Menu", ["Visitante", "Administrador"])
+      if op == "Visitante": IndexUI.menu_visitante()
+      if op == "Administrador":
+        View.Adm()
+        LoginUI.main()
+    
     def btn_logout():
       if st.sidebar.button("Logout"):
-        del st.session_state["cliente_id"]
+        del st.session_state["adm_email"]
         st.rerun()
-    def menu_cliente():
+    def menu_visitante():
       op = st.sidebar.selectbox("Menu", ["Ver cursos", "Ver departamentos", "Ver universidades"])
-      if op == "Ver cursos": CursovisitanteUI.main()
+      if op == "Ver cursos": CursovisitanteUI.main() 
       if op == "Ver departamentos": DepartamentovisitanteUI.main()
       if op == "Ver universidades": UniversidadevisitanteUI.main()
-      if st.sidebar.button("Login"):
-        LoginUI.main()
     def sidebar():
-      if "cliente_id" not in st.session_state:
-        IndexUI.menu_visitante()   
-      else:
-        IndexUI.menu_admin() 
+      
+      if "adm_email"  in st.session_state:
+        IndexUI.sidebare() 
         IndexUI.btn_logout() 
+      else:
+        IndexUI.visitante()  
          
     def main():
+      
       IndexUI.sidebar()
 
       #if "page" not in st.session_state: st.session_state["page"] = "equacaoUI"

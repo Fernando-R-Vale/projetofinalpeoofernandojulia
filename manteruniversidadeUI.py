@@ -20,7 +20,8 @@ class ManterUniversidadeUI:
       dic = []
       for obj in universidade: dic.append(obj.__dict__)
       df = pd.DataFrame(dic)
-      st.dataframe(df)
+      df = df.drop('_Universidade__id', axis=1)
+      st.dataframe(df, hide_index=True)
 
   def inserir():
     nome = st.text_input("Informe o nome")

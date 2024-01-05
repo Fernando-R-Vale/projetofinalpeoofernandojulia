@@ -4,8 +4,9 @@ from models.universisdade import Universidade, NUniversidades
 from models.curso import curso, Ncurso
 class View:
   def Adm_inserir(email, senha):
-    Adm = adm(0, email, senha)
-    Nadm.inserir(Adm)
+    a = int(0)
+    x = adm(a, email, senha)
+    Nadm.inserir(x)
 
   def Adm_listar():
     return Nadm.listar()
@@ -14,17 +15,22 @@ class View:
     return Nadm.listar_id(id)
 
   def Adm_atualizar(id, email, senha):
-    Adm = adm(id, email, senha)
-    Nadm.atualizar(Adm)
+    x = adm(id, email, senha)
+    Nadm.atualizar(x)
     
   def Adm_excluir(id):
-    Adm = adm(id, "", "")
-    Nadm.excluir(Adm)  
-    
-  def Adm_login(email, senha):
-    for Adm in View.Adm_listar():
-      if Adm.get_email() == email and Adm.get_senha() == senha:
-        return Adm
+    x = adm(id, "", "")
+    Nadm.excluir(x)  
+  
+  def Adm():
+    for x in View.Adm_listar():
+      if x.get_email() == "admin": return
+    View.Adm_inserir("admin", "admin")  
+ 
+  def adm_login(email, senha):
+    for x in View.Adm_listar():
+      if x.get_email() == email and x.get_senha() == senha:
+        return x
     return None
 
   def departamento_listar():
@@ -42,6 +48,9 @@ class View:
   def departamento_excluir(id):
     Ndepartamento.excluir(departamento(id, "", 0, ""))
 
+  def universidade_listar_id(id):
+    return NUniversidades.listar_id(id)
+  
   def universidade_listar():
     return NUniversidades.listar()
 
