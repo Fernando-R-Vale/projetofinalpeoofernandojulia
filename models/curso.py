@@ -1,5 +1,5 @@
 import json
-from model import Modelo
+from models.model import Modelo
 class curso:
   def __init__(self, id, nome, professores, vagas, nivel, id_departamento):
     self.__id = id
@@ -32,21 +32,20 @@ class curso:
 
 
 class Ncurso(Modelo):
-  __cursos = [] 
 
   @classmethod
   def abrir(cls):
-    cls.__cursos = []
+    cls.objetos = []
     try:
       with open("cursos.json", mode="r") as arquivo:
         cursos_json = json.load(arquivo)
         for obj in cursos_json:
           aux = curso(obj["_curso__id"], obj["_curso__nome"], obj["_curso__professores"], obj["_curso__vagas"], obj["_curso__nivel"], obj["_curso__departamento"])
-          cls.__cursos.append(aux)
+          cls.objetos.append(aux)
     except FileNotFoundError:
       pass
 
   @classmethod
   def salvar(cls):
     with open("cursos.json", mode="w") as arquivo:
-      json.dump(cls.__cursos, arquivo, default=vars)
+      json.dump(cls.objetos, arquivo, default=vars)

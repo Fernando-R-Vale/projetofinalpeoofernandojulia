@@ -1,5 +1,5 @@
 import json
-from model import Modelo
+from models.model import Modelo
 class adm:
   def __init__(self, id, email, senha):
     self.__id = id
@@ -25,20 +25,18 @@ class adm:
 
 
 class Nadm(Modelo):
-  __adms = []  
   @classmethod
   def abrir(cls):
-    cls.__adms = []
+    cls.objetos = []
     try:
       with open("adms.json", mode="r") as arquivo:
         adms_json = json.load(arquivo)
         for obj in adms_json:
           aux = adm(obj["_adm__id"], obj["_adm__email"], obj["_adm__senha"])
-          cls.__adms.append(aux)
+          cls.objetos.append(aux)
     except FileNotFoundError:
       pass
-
   @classmethod
   def salvar(cls):
     with open("adms.json", mode="w") as arquivo:
-      json.dump(cls.__adms, arquivo, default=vars)
+      json.dump(cls.objetos, arquivo, default=vars)
